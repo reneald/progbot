@@ -1,2 +1,4 @@
 # progbot
 A simple Discord bot that recommends prog music
+
+I'm following a tutorial from CodingTrain: https://www.youtube.com/watch?v=7A-bnPlxj4k
