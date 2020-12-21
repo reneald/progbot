@@ -1,0 +1,25 @@
+{
+  "name": "progbot",
+  "version": "1.0.0",
+  "description": "A simple Discord bot that recommends prog music.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/reneald/progbot.git"
+  },
+  "keywords": [
+    "bot",
+    "prog",
+    "discord",
+    "music"
+  ],
+  "author": "Leander Van Reeth",
+  "license": "SEE LICENSE IN LICENSE",
+  "bugs": {
+    "url": "https://github.com/reneald/progbot/issues"
+  },
+  "homepage": "https://github.com/reneald/progbot#readme"
+}
