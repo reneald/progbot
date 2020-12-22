@@ -1,9 +1,9 @@
 console.log('Beep beep');
 
-// remove for deployment on glitch etc.
-// require('dotenv').config();
-
+// import dotenv from 'dotenv';
 import { Client } from 'discord.js';
+
+// dotenv.config();
 const client = new Client();
 client.login(process.env.BOT_TOKEN);
 
