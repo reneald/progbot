@@ -53,12 +53,12 @@ function replyBandName(message) {
 }
 
 function noDoubt(message) {
-    readFile('NODOUBT.md','utf-8', (error, data) => {
-        if (error) console.log(error);
-        console.log(data);
-        message.reply(data);
-    });
-    // message.reply('no doubt');
+    // readFile('NODOUBT.md','utf-8', (error, data) => {
+    //     if (error) console.log(error);
+    //     console.log(data);
+    //     message.reply(data);
+    // });
+    message.reply('no doubt');
 }
 
 function addBand(messageContent) {
