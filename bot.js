@@ -49,21 +49,13 @@ function gotMessage(message) {
 
 function replyBandName(message) {
     const index = Math.floor(Math.random() * bandNames.length);
-    try {
-        message.channel.send(bandNames[index]);
-    } catch (error) {
-        console.log(error);
-    }
+    message.channel.send(bandNames[index]);
 }
 
 function noDoubt(message) {
-    readFile('NODOUBT.md', (readError, data) => {
-        if (readError) console.log(readError);
-        try {
-            message.reply(data);
-        } catch (error) {
-            console.log(error);
-        }
+    readFile('NODOUBT.md', (error, data) => {
+        if (error) console.log(error);
+        message.reply(data);
     });
     // message.reply('no doubt');
 }
