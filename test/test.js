@@ -10,13 +10,6 @@ import * as data from '../src/data.js';
 
 jest.mock('../src/Channel');
 
-// Channel.mockImplementation(() => {
-//     return {
-//         sendMessage: jest.fn(),
-//         getId: () => process.env.BOT_TESTING_CHANNEL_ID
-//     }
-// })
-
 describe("MusicBot", () => {
     let bot;
     let channel;
