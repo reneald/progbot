@@ -1,7 +1,7 @@
 console.log('Beep beep');
 
 import { Client } from 'discord.js';
-import {readFile} from 'fs';
+import { readFile } from 'fs';
 
 const client = new Client();
 client.login(process.env.BOT_TOKEN);
@@ -55,6 +55,7 @@ function replyBandName(message) {
 function noDoubt(message) {
     readFile('NODOUBT.md', (error, data) => {
         if (error) console.log(error);
+        console.log(data);
         message.reply(data);
     });
     // message.reply('no doubt');
