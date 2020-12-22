@@ -26,9 +26,19 @@ const showHelpAbstract = async function(message) {
 const replyBandName = function (message) {
     console.log('Message ' + message.id + ' asks for a band name...');
     const index = Math.floor(Math.random() * data.getBandNamesLength());
-    message.channel.send(bandNames[index]);
+    const bandNameToReturn = data.getBandName(index);
+    message.channel.send(bandNameToReturn);
     console.log('Provided band name. Processing message ' + message.id + ' complete.');
-    return bandNames[index];
+    return bandNameToReturn;
+}
+
+const replyBandNameAbstract = function (message) {
+    console.log('Message ' + message.id + ' asks for a band name...');
+    const index = Math.floor(Math.random() * data.getBandNamesLength());
+    const bandNameToReturn = data.getBandName(index);
+    message.channel.sendMessage(bandNameToReturn);
+    console.log('Provided band name. Processing message ' + message.id + ' complete.');
+    return bandNameToReturn;
 }
 
 const addBand = function (message) {
@@ -53,5 +63,5 @@ const noDoubtAbstract = function(message) {
 }
 
 export {
-    showHelp, showHelpAbstract, replyBandName, addBand, noDoubt, noDoubtAbstract
+    showHelp, showHelpAbstract, replyBandName, replyBandNameAbstract, addBand, noDoubt, noDoubtAbstract
 }

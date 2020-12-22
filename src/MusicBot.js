@@ -15,6 +15,8 @@ export default class MusicBot {
                     return commands.showHelpAbstract(message);
                 case "!addband":
                     return commands.addBand(message);
+                case "!band":
+                    return commands.replyBandNameAbstract(message);
                 default:
                     break;
             }
