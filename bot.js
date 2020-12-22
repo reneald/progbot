@@ -1,10 +1,10 @@
 console.log('Beep beep');
 
 // remove for deployment on glitch etc.
-require('dotenv').config();
+// require('dotenv').config();
 
-const Discord = require('discord.js');
-const client = new Discord.Client();
+import { Client } from 'discord.js';
+const client = new Client();
 client.login(process.env.BOT_TOKEN);
 
 const bandNames = [

@@ -14,7 +14,8 @@
     "bot",
     "prog",
     "discord",
-    "music"
+    "music",
+    "spotify"
   ],
   "author": "Leander Van Reeth",
   "license": "SEE LICENSE IN LICENSE",
@@ -22,6 +23,7 @@
     "url": "https://github.com/reneald/progbot/issues"
   },
   "homepage": "https://github.com/reneald/progbot#readme",
+  "type": "module",
   "dependencies": {
     "discord.js": "^12.5.1",
     "dotenv": "^8.2.0"
