@@ -1,9 +1,7 @@
 console.log('Beep beep');
 
-// import dotenv from 'dotenv';
 import { Client } from 'discord.js';
 
-// dotenv.config();
 const client = new Client();
 client.login(process.env.BOT_TOKEN);
 
