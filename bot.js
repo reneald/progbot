@@ -6,16 +6,6 @@ import * as commands from './commands.js';
 const client = new Client();
 client.login(process.env.BOT_TOKEN);
 
-const bandNames = [
-    'Toehider',
-    'Rush',
-    'Evergrey',
-    'Symphony X',
-    'Ayreon',
-    'Pain of Salvation',
-    'Dream Theater'
-]
-
 client.on('ready', readyDiscord);
 
 function readyDiscord() {
@@ -37,11 +27,13 @@ function gotMessage(message) {
                     commands.replyBandName(message);
                     break;
                 case "!addband":
-                    commands.addBand(message.content);
+                    commands.addBand(message);
                     break;
                 default:
+                    console.log('Ignoring message ' + message.id + '.');
                     break;
             }
+
         } else if (message.content === 'prog rocks') {
             commands.noDoubt(message);
         } else {

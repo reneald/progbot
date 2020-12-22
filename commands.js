@@ -1,4 +1,5 @@
 import { readFile } from 'fs';
+import * as data from './data.js';
 
 const showHelp = function (message) {
     console.log('Message ' + message.id + ' is a cry for help...');
@@ -11,7 +12,7 @@ const showHelp = function (message) {
 
 const replyBandName = function (message) {
     console.log('Message ' + message.id + ' asks for a band name...');
-    const index = Math.floor(Math.random() * bandNames.length);
+    const index = Math.floor(Math.random() * data.getBandNamesLength());
     message.channel.send(bandNames[index]);
     console.log('Provided band name. Processing message ' + message.id + ' complete.');
 }
@@ -20,7 +21,7 @@ const addBand = function (message) {
     console.log('Message ' + message.id + ' wants to add a band to my list...');
     const separateCommandFromContent = message.content.match(/!\w+ (.+)/);
     const bandName = separateCommandFromContent[1];
-    bandNames.push(bandName);
+    data.addBandName(bandName);
     console.log('Band name added. Processing message ' + message.id + ' complete.');
 }
 
