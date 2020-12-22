@@ -1,6 +1,7 @@
 console.log('Beep beep');
 
 import { Client } from 'discord.js';
+import {readFile} from 'fs';
 
 const client = new Client();
 client.login(process.env.BOT_TOKEN);
@@ -52,7 +53,11 @@ function replyBandName(message) {
 }
 
 function noDoubt(message) {
-    message.reply('no doubt');
+    readFile('./NODOUBT.md', (error, data) => {
+        if (error) throw error;
+        message.reply(data);
+    });
+    // message.reply('no doubt');
 }
 
 function addBand(messageContent) {
