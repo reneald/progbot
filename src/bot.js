@@ -1,45 +1,26 @@
 console.log('Beep beep');
 
-import { Client } from 'discord.js';
 import * as commands from './commands.js';
+import MusicClient from './MusicClient.js';
+import MusicBot from './MusicBot.js';
+import Message from './Message.js';
 
-const client = new Client();
+const client = new MusicClient();
 client.login(process.env.BOT_TOKEN);
 
+const bot = new MusicBot();
+
 client.on('ready', readyDiscord);
+
+client.on('message', gotMessage);
 
 function readyDiscord() {
     console.log('Proggers gonna prog');
 }
 
-client.on('message', gotMessage);
+function gotMessage(discordMessage) {
+    console.log('Received message ' + discordMessage.id);
+    const message = bot.createMessage(discordMessage);
 
-function gotMessage(message) {
-    console.log('Received message ' + message.id);
-    if (message.channel.id == process.env.BOT_TESTING_CHANNEL_ID) {
-        if (message.content.match(/^!.+/)) {
-            const command = message.content.match(/(!\w+)/)[1];
-            switch (command) {
-                case "!help":
-                    commands.showHelp(message);
-                    break;
-                case "!band":
-                    commands.replyBandName(message);
-                    break;
-                case "!addband":
-                    commands.addBand(message);
-                    break;
-                default:
-                    console.log('Ignoring message ' + message.id + '.');
-                    break;
-            }
-
-        } else if (message.content === 'prog rocks') {
-            commands.noDoubt(message);
-        } else {
-            console.log('Ignoring message ' + message.id + '.');
-        }
-        
-
-    }
+    bot.handleMessage(message);
 }

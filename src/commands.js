@@ -20,7 +20,7 @@ const showHelpAbstract = async function(message) {
     } catch (error) {
         console.log(error);
     }
-    console.log('Cry answered. Processing message ' + message.id + ' complete.');
+    console.log('Help provided. Processing message ' + message.id + ' complete.');
 }
 
 const replyBandName = function (message) {

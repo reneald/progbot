@@ -1,6 +1,11 @@
+/**
+ * @jest-environment node
+ */
+
 import MusicBot from '../src/MusicBot';
 import Message from '../src/Message';
 import Channel from '../src/Channel';
+import MusicClient from '../src/MusicClient';
 import { readFile } from 'fs/promises';
 import * as data from '../src/data.js';
 
@@ -8,7 +13,7 @@ jest.mock('../src/Channel');
 
 Channel.mockImplementation(() => {
     return {
-        sendMessage: jest.fn()
+        sendMessage: jest.fn(),
     }
 })
 
@@ -85,7 +90,7 @@ describe("MusicBot", () => {
         expect(data.getBandNames()).toContain(expectedItem);
     })
     
-    test('!band should reply with a bandname fro array', () => {
+    test('!band should reply with a bandname from array', () => {
         //GIVEN
         const messageContent = '!band';
         const bandNames = data.getBandNames();

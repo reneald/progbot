@@ -1,11 +1,18 @@
 import * as commands from './commands.js';
+import Message from './Message.js';
+import Channel from './Channel.js';
+
 export default class MusicBot {
     constructor () {
 
     }
 
-    handleMessage(message) {
+    createMessage(message) {
+        const channel = new Channel(message);
+        return new Message(message.id, channel, message.content);
+    }
 
+    handleMessage(message) {
         if (message.content === 'prog rocks') {
             commands.noDoubtAbstract(message);
         } else if (message.content.match(/^!.+/)) {

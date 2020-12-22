@@ -4,4 +4,5 @@ export default class Message {
         this.channel = channel;
         this.content = content;
     }
+
 }
