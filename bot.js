@@ -25,6 +25,7 @@ function readyDiscord() {
 client.on('message', gotMessage);
 
 function gotMessage(message) {
+    console.log('Received message ' + message.id);
     if (message.channel.id == process.env.BOT_TESTING_CHANNEL_ID) {
         if (message.content.match(/^!.+/)) {
             const command = message.content.match(/(!\w+)/)[1];
@@ -43,6 +44,8 @@ function gotMessage(message) {
             }
         } else if (message.content === 'prog rocks') {
             commands.noDoubt(message);
+        } else {
+            console.log('Ignoring message ' + message.id + '.');
         }
         
 
