@@ -5,17 +5,17 @@
 import MusicBot from '../src/MusicBot';
 import Message from '../src/Message';
 import Channel from '../src/Channel';
-import MusicClient from '../src/MusicClient';
 import { readFile } from 'fs/promises';
 import * as data from '../src/data.js';
 
 jest.mock('../src/Channel');
 
-Channel.mockImplementation(() => {
-    return {
-        sendMessage: jest.fn(),
-    }
-})
+// Channel.mockImplementation(() => {
+//     return {
+//         sendMessage: jest.fn(),
+//         getId: () => process.env.BOT_TESTING_CHANNEL_ID
+//     }
+// })
 
 describe("MusicBot", () => {
     let bot;
@@ -26,6 +26,8 @@ describe("MusicBot", () => {
         Channel.mockClear();
         bot = new MusicBot();
         channel = new Channel();
+        channel.sendMessage.mockImplementation(() => jest.fn());
+        channel.getId.mockImplementation(() => process.env.BOT_TESTING_CHANNEL_ID);
         help = await readFile('./src/HELP.md', 'utf-8');
     })
 
@@ -103,5 +105,19 @@ describe("MusicBot", () => {
         //THEN
         expect(channel.sendMessage).toBeCalledTimes(1);
         expect(bandNames).toContain(result);
+    })
+
+    test('messages outside of bot testing channel should be ignored', () => {
+        //GIVEN
+        channel.getId.mockImplementation(() => 1);
+        const messageContent = 'prog rocks';
+
+        const message = new Message(1, channel, messageContent);
+
+        //WHEN
+        bot.handleMessage(message);
+
+        //THEN
+        expect(channel.sendMessage).toBeCalledTimes(0);
     })
 })

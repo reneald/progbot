@@ -1,18 +1,7 @@
 import { readFile } from 'fs/promises';
 import * as data from './data.js';
-
-const showHelp = async function (message) {
-    console.log('Message ' + message.id + ' is a cry for help...');
-        try {
-            const data = await readFile('./src/HELP.md', 'utf-8');
-            message.channel.send(data);
-        } catch (error) {
-            console.log(error);
-        }
-        console.log('Cry answered. Processing message ' + message.id + ' complete.');
-    }
     
-const showHelpAbstract = async function(message) {
+const showHelp = async function(message) {
     console.log('Message ' + message.id + ' is a cry for help...');
     try {
         const data = await readFile('./src/HELP.md', 'utf-8');
@@ -24,15 +13,6 @@ const showHelpAbstract = async function(message) {
 }
 
 const replyBandName = function (message) {
-    console.log('Message ' + message.id + ' asks for a band name...');
-    const index = Math.floor(Math.random() * data.getBandNamesLength());
-    const bandNameToReturn = data.getBandName(index);
-    message.channel.send(bandNameToReturn);
-    console.log('Provided band name. Processing message ' + message.id + ' complete.');
-    return bandNameToReturn;
-}
-
-const replyBandNameAbstract = function (message) {
     console.log('Message ' + message.id + ' asks for a band name...');
     const index = Math.floor(Math.random() * data.getBandNamesLength());
     const bandNameToReturn = data.getBandName(index);
@@ -50,18 +30,12 @@ const addBand = function (message) {
     return data.getBandNames;
 }
 
-const noDoubt = function (message) {
-    console.log('Message ' + message.id + ' tells the truth...');
-    message.reply('no doubt');
-    console.log('Is No Doubt prog? Processing message ' + message.id + ' complete.');
-}
-
-const noDoubtAbstract = function(message) {
+const noDoubt = function(message) {
     console.log('Message ' + message.id + ' tells the truth...');
     message.channel.sendMessage('no doubt');
     console.log('Is No Doubt prog? Processing message ' + message.id + ' complete.');
 }
 
 export {
-    showHelp, showHelpAbstract, replyBandName, replyBandNameAbstract, addBand, noDoubt, noDoubtAbstract
+    showHelp, replyBandName, addBand, noDoubt
 }

@@ -1,9 +1,7 @@
 console.log('Beep beep');
 
-import * as commands from './commands.js';
 import MusicClient from './MusicClient.js';
 import MusicBot from './MusicBot.js';
-import Message from './Message.js';
 
 const client = new MusicClient();
 client.login(process.env.BOT_TOKEN);

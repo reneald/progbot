@@ -13,20 +13,25 @@ export default class MusicBot {
     }
 
     handleMessage(message) {
-        if (message.content === 'prog rocks') {
-            commands.noDoubtAbstract(message);
-        } else if (message.content.match(/^!.+/)) {
-            const command = message.content.match(/(!\w+)/)[1];
-            switch (command) {
-                case "!help":
-                    return commands.showHelpAbstract(message);
-                case "!addband":
-                    return commands.addBand(message);
-                case "!band":
-                    return commands.replyBandNameAbstract(message);
-                default:
-                    break;
+        if (message.channel.getId() === process.env.BOT_TESTING_CHANNEL_ID) {
+            if (message.content === 'prog rocks') {
+                commands.noDoubt(message);
+            } else if (message.content.match(/^!.+/)) {
+                const command = message.content.match(/(!\w+)/)[1];
+                switch (command) {
+                    case "!help":
+                        return commands.showHelp(message);
+                    case "!addband":
+                        return commands.addBand(message);
+                    case "!band":
+                        return commands.replyBandName(message);
+                    default:
+                        console.log('Ignoring message ' + message.id + '.');
+                        break;
+                }
             }
+        } else {
+            console.log('Ignoring message ' + message.id + '.');
         }
     }
 
