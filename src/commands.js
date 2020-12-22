@@ -28,6 +28,7 @@ const replyBandName = function (message) {
     const index = Math.floor(Math.random() * data.getBandNamesLength());
     message.channel.send(bandNames[index]);
     console.log('Provided band name. Processing message ' + message.id + ' complete.');
+    return bandNames[index];
 }
 
 const addBand = function (message) {
