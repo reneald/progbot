@@ -12,6 +12,10 @@ const getBandNames = function () {
     return bandNames;
 }
 
+const getBandName = function(index) {
+    return bandNames[index];
+}
+
 const getBandNamesLength =  function() {
     return bandNames.length;
 }
@@ -20,4 +24,4 @@ const addBandName = function(bandName) {
     bandNames.push(bandName);
 }
 
-export {getBandNames, getBandNamesLength, addBandName};
+export {getBandNames, getBandName, getBandNamesLength, addBandName};

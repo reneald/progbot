@@ -1,20 +1,24 @@
-import { readFile } from 'fs';
+import { readFile } from 'fs/promises';
 import * as data from './data.js';
-
-const showHelp = function (message) {
+    
+const showHelp = async function(message) {
     console.log('Message ' + message.id + ' is a cry for help...');
-    readFile('HELP.md','utf-8', (error, data) => {
-        if (error) console.log(error);
-        message.channel.send(data);
-    });
-    console.log('Cry answered. Processing message ' + message.id + ' complete.');
+    try {
+        const data = await readFile('./src/HELP.md', 'utf-8');
+        message.channel.sendMessage(data);
+    } catch (error) {
+        console.log(error);
+    }
+    console.log('Help provided. Processing message ' + message.id + ' complete.');
 }
 
 const replyBandName = function (message) {
     console.log('Message ' + message.id + ' asks for a band name...');
     const index = Math.floor(Math.random() * data.getBandNamesLength());
-    message.channel.send(bandNames[index]);
+    const bandNameToReturn = data.getBandName(index);
+    message.channel.sendMessage(bandNameToReturn);
     console.log('Provided band name. Processing message ' + message.id + ' complete.');
+    return bandNameToReturn;
 }
 
 const addBand = function (message) {
@@ -23,11 +27,12 @@ const addBand = function (message) {
     const bandName = separateCommandFromContent[1];
     data.addBandName(bandName);
     console.log('Band name added. Processing message ' + message.id + ' complete.');
+    return data.getBandNames;
 }
 
-const noDoubt = function (message) {
+const noDoubt = function(message) {
     console.log('Message ' + message.id + ' tells the truth...');
-    message.reply('no doubt');
+    message.channel.sendMessage('no doubt');
     console.log('Is No Doubt prog? Processing message ' + message.id + ' complete.');
 }
 
