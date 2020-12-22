@@ -30,6 +30,9 @@ function gotMessage(message) {
         if (message.content.match(/!.+/)) {
             const command = message.content.match(/(!\w+)/)[1];
             switch (command) {
+                case "!help":
+                    showHelp(message);
+                    break;
                 case "!band":
                     replyBandName(message);
                     break;
@@ -47,17 +50,19 @@ function gotMessage(message) {
     }
 }
 
+function showHelp(message) {
+    readFile('HELP.md','utf-8', (error, data) => {
+        if (error) console.log(error);
+        message.reply(data);
+    });
+}
+
 function replyBandName(message) {
     const index = Math.floor(Math.random() * bandNames.length);
     message.channel.send(bandNames[index]);
 }
 
 function noDoubt(message) {
-    // readFile('NODOUBT.md','utf-8', (error, data) => {
-    //     if (error) console.log(error);
-    //     console.log(data);
-    //     message.reply(data);
-    // });
     message.reply('no doubt');
 }
 
