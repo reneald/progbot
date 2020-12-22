@@ -54,7 +54,7 @@ function replyBandName(message) {
 
 function noDoubt(message) {
     readFile('NODOUBT.md', (error, data) => {
-        if (error) throw error;
+        if (error) console.log(error);
         message.reply(data);
     });
     // message.reply('no doubt');
