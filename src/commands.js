@@ -1,13 +1,26 @@
-import { readFile } from 'fs';
+import { readFile } from 'fs/promises';
 import * as data from './data.js';
 
-const showHelp = function (message) {
+const showHelp = async function (message) {
     console.log('Message ' + message.id + ' is a cry for help...');
-    readFile('src/HELP.md','utf-8', (error, data) => {
-        if (error) console.log(error);
-        message.channel.send(data);
-    });
-    console.log('Cry answered. Processing message ' + message.id + ' complete.');
+        try {
+            const data = await readFile('./src/HELP.md', 'utf-8');
+            message.channel.send(data);
+        } catch (error) {
+            console.log(error);
+        }
+        console.log('Cry answered. Processing message ' + message.id + ' complete.');
+    }
+    
+    const showHelpAbstract = async function(message) {
+        console.log('Message ' + message.id + ' is a cry for help...');
+        try {
+            const data = await readFile('./src/HELP.md', 'utf-8');
+            message.channel.sendMessage(data);
+        } catch (error) {
+            console.log(error);
+        }
+        console.log('Cry answered. Processing message ' + message.id + ' complete.');
 }
 
 const replyBandName = function (message) {
@@ -31,6 +44,10 @@ const noDoubt = function (message) {
     console.log('Is No Doubt prog? Processing message ' + message.id + ' complete.');
 }
 
+const noDoubtAbstract = function(message) {
+    message.channel.sendMessage('no doubt');
+}
+
 export {
-    showHelp, replyBandName, addBand, noDoubt
+    showHelp, showHelpAbstract, replyBandName, addBand, noDoubt, noDoubtAbstract
 }
