@@ -26,7 +26,6 @@
   "homepage": "https://github.com/reneald/progbot#readme",
   "type": "module",
   "dependencies": {
-    "discord.js": "^12.5.1",
-    "mocha": "^8.2.1"
+    "discord.js": "^12.5.1"
   }
 }
