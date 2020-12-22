@@ -12,15 +12,15 @@ const showHelp = async function (message) {
         console.log('Cry answered. Processing message ' + message.id + ' complete.');
     }
     
-    const showHelpAbstract = async function(message) {
-        console.log('Message ' + message.id + ' is a cry for help...');
-        try {
-            const data = await readFile('./src/HELP.md', 'utf-8');
-            message.channel.sendMessage(data);
-        } catch (error) {
-            console.log(error);
-        }
-        console.log('Cry answered. Processing message ' + message.id + ' complete.');
+const showHelpAbstract = async function(message) {
+    console.log('Message ' + message.id + ' is a cry for help...');
+    try {
+        const data = await readFile('./src/HELP.md', 'utf-8');
+        message.channel.sendMessage(data);
+    } catch (error) {
+        console.log(error);
+    }
+    console.log('Cry answered. Processing message ' + message.id + ' complete.');
 }
 
 const replyBandName = function (message) {
@@ -45,7 +45,9 @@ const noDoubt = function (message) {
 }
 
 const noDoubtAbstract = function(message) {
+    console.log('Message ' + message.id + ' tells the truth...');
     message.channel.sendMessage('no doubt');
+    console.log('Is No Doubt prog? Processing message ' + message.id + ' complete.');
 }
 
 export {

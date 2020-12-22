@@ -27,7 +27,7 @@ describe("MusicBot", () => {
         const messageContent = 'prog rocks';
         const expectedResponse = 'no doubt';
 
-        const message = new Message(channel, messageContent);
+        const message = new Message(1, channel, messageContent);
 
         bot.handleMessage(message);
 
@@ -38,7 +38,7 @@ describe("MusicBot", () => {
     test('prog sucks should not respond with no doubt', () => {
         const messageContent = 'prog sucks';
         
-        const message = new Message(channel, messageContent);
+        const message = new Message(1, channel, messageContent);
 
         bot.handleMessage(message);
 
@@ -49,7 +49,7 @@ describe("MusicBot", () => {
         const messageContent = '!help';
         const expectedResponse = help;
 
-        const message = new Message(channel, messageContent);
+        const message = new Message(1, channel, messageContent);
 
         await bot.handleMessage(message);
 
