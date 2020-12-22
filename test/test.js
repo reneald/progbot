@@ -2,6 +2,7 @@ import MusicBot from '../src/MusicBot';
 import Message from '../src/Message';
 import Channel from '../src/Channel';
 import { readFile } from 'fs/promises';
+import * as data from '../src/data.js';
 
 jest.mock('../src/Channel');
 
@@ -56,5 +57,18 @@ describe("MusicBot", () => {
         expect(channel.sendMessage).toBeCalledTimes(1);
         expect(channel.sendMessage).toBeCalledWith(expectedResponse);
 
+    })
+
+    test('!addband should add band name to array', () => {
+        const messageContent = '!addband Tool';
+        const expectedItem = 'Tool';
+        const arrayLengthBefore = data.getBandNamesLength();
+        
+        const message = new Message(1, channel, messageContent);
+
+        bot.handleMessage(message);
+
+        expect(data.getBandNames()).toHaveLength(arrayLengthBefore + 1);
+        expect(data.getBandNames()).toContain(expectedItem);
     })
 })

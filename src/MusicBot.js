@@ -13,7 +13,8 @@ export default class MusicBot {
             switch (command) {
                 case "!help":
                     return commands.showHelpAbstract(message);
-                    break;
+                case "!addband":
+                    return commands.addBand(message);
                 default:
                     break;
             }

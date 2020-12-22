@@ -36,6 +36,7 @@ const addBand = function (message) {
     const bandName = separateCommandFromContent[1];
     data.addBandName(bandName);
     console.log('Band name added. Processing message ' + message.id + ' complete.');
+    return data.getBandNames;
 }
 
 const noDoubt = function (message) {
