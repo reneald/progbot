@@ -2,6 +2,7 @@ console.log('Beep beep');
 
 import { Client } from 'discord.js';
 import { readFile } from 'fs';
+import * as commands from './commands.js';
 
 const client = new Client();
 client.login(process.env.BOT_TOKEN);
@@ -31,43 +32,43 @@ function gotMessage(message) {
             const command = message.content.match(/(!\w+)/)[1];
             switch (command) {
                 case "!help":
-                    showHelp(message);
+                    commands.showHelp(message);
                     break;
                 case "!band":
-                    replyBandName(message);
+                    commands.replyBandName(message);
                     break;
                 case "!addband":
-                    addBand(message.content);
+                    commands.addBand(message.content);
                     break;
                 default:
                     break;
             }
         } else if (message.content === 'prog rocks') {
-            noDoubt(message);
+            commands.noDoubt(message);
         }
         
 
     }
 }
 
-function showHelp(message) {
-    readFile('HELP.md','utf-8', (error, data) => {
-        if (error) console.log(error);
-        message.reply(data);
-    });
-}
+// function showHelp(message) {
+//     readFile('HELP.md','utf-8', (error, data) => {
+//         if (error) console.log(error);
+//         message.reply(data);
+//     });
+// }
 
-function replyBandName(message) {
-    const index = Math.floor(Math.random() * bandNames.length);
-    message.channel.send(bandNames[index]);
-}
+// function replyBandName(message) {
+//     const index = Math.floor(Math.random() * bandNames.length);
+//     message.channel.send(bandNames[index]);
+// }
 
-function noDoubt(message) {
-    message.reply('no doubt');
-}
+// function noDoubt(message) {
+//     message.reply('no doubt');
+// }
 
-function addBand(messageContent) {
-    const separateCommandFromContent = messageContent.match(/!\w+ (.+)/);
-    const bandName = separateCommandFromContent[1];
-    bandNames.push(bandName);
-}
+// function addBand(messageContent) {
+//     const separateCommandFromContent = messageContent.match(/!\w+ (.+)/);
+//     const bandName = separateCommandFromContent[1];
+//     bandNames.push(bandName);
+// }
