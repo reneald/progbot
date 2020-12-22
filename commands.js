@@ -1,3 +1,5 @@
+import { readFile } from 'fs';
+
 const showHelp = function showHelp(message) {
     readFile('HELP.md','utf-8', (error, data) => {
         if (error) console.log(error);

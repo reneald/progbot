@@ -1,7 +1,6 @@
 console.log('Beep beep');
 
 import { Client } from 'discord.js';
-import { readFile } from 'fs';
 import * as commands from './commands.js';
 
 const client = new Client();
