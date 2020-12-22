@@ -18,6 +18,9 @@
     "music",
     "spotify"
   ],
+  "engines": {
+    "node": "15.x"
+  },
   "author": "Leander Van Reeth",
   "license": "SEE LICENSE IN LICENSE",
   "bugs": {
