@@ -25,9 +25,8 @@ function readyDiscord() {
 client.on('message', gotMessage);
 
 function gotMessage(message) {
-    console.log(message.content);
     if (message.channel.id == process.env.BOT_TESTING_CHANNEL_ID) {
-        if (message.content.match(/!.+/)) {
+        if (message.content.match(/^!.+/)) {
             const command = message.content.match(/(!\w+)/)[1];
             switch (command) {
                 case "!help":
