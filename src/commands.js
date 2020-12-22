@@ -3,7 +3,7 @@ import * as data from './data.js';
 
 const showHelp = function (message) {
     console.log('Message ' + message.id + ' is a cry for help...');
-    readFile('HELP.md','utf-8', (error, data) => {
+    readFile('src/HELP.md','utf-8', (error, data) => {
         if (error) console.log(error);
         message.channel.send(data);
     });
