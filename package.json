@@ -30,7 +30,8 @@
   "type": "module",
   "dependencies": {
     "@types/node": "^14.14.14",
-    "discord.js": "^12.5.1"
+    "discord.js": "^12.5.1",
+    "spotify-web-api-node": "^5.0.0"
   },
   "devDependencies": {
     "@babel/core": "^7.12.10",
