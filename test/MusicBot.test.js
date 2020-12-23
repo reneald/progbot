@@ -12,123 +12,121 @@ import * as data from '../src/data.js';
 jest.mock('../src/Channel');
 jest.mock('../src/SpotifyWrapper');
 
-describe("MusicBot", () => {
-    let bot;
-    let channel;
-    let help;
-    let spotify;
+let bot;
+let channel;
+let help;
+let spotify;
 
-    beforeEach(async () => {
-        Channel.mockClear();
-        spotify = new SpotifyWrapper();
-        bot = new MusicBot(spotify);
-        channel = new Channel();
-        channel.getId.mockImplementation(() => process.env.BOT_TESTING_CHANNEL_ID);
-        help = await readFile('./src/HELP.md', 'utf-8');
-    })
+beforeEach(async () => {
+    Channel.mockClear();
+    spotify = new SpotifyWrapper();
+    bot = new MusicBot(spotify);
+    channel = new Channel();
+    channel.getId.mockImplementation(() => process.env.BOT_TESTING_CHANNEL_ID);
+    help = await readFile('./src/HELP.md', 'utf-8');
+})
 
-    test('prog rocks should respond with no doubt', () => {
-        //GIVEN
-        const messageContent = 'prog rocks';
-        const expectedResponse = 'no doubt';
+test('prog rocks should respond with no doubt', () => {
+    //GIVEN
+    const messageContent = 'prog rocks';
+    const expectedResponse = 'no doubt';
 
-        const message = new Message(1, channel, messageContent);
+    const message = new Message(1, channel, messageContent);
 
-        //WHEN
-        bot.handleMessage(message);
+    //WHEN
+    bot.handleMessage(message);
 
-        //THEN
-        expect(channel.sendMessage).toBeCalledTimes(1);
-        expect(channel.sendMessage).toBeCalledWith(expectedResponse);
-    })
+    //THEN
+    expect(channel.sendMessage).toBeCalledTimes(1);
+    expect(channel.sendMessage).toBeCalledWith(expectedResponse);
+})
 
-    test('prog sucks should not respond with no doubt', () => {
-        //GIVEN
-        const messageContent = 'prog sucks';
-        
-        const message = new Message(1, channel, messageContent);
+test('prog sucks should not respond with no doubt', () => {
+    //GIVEN
+    const messageContent = 'prog sucks';
 
-        //WHEN
-        bot.handleMessage(message);
+    const message = new Message(1, channel, messageContent);
 
-        //THEN
-        expect(channel.sendMessage).toBeCalledTimes(0);
-    })
+    //WHEN
+    bot.handleMessage(message);
 
-    test('!help should return contents of HELP.md', async () => {
-        //GIVEN
-        const messageContent = '!help';
-        const expectedResponse = help;
+    //THEN
+    expect(channel.sendMessage).toBeCalledTimes(0);
+})
 
-        const message = new Message(1, channel, messageContent);
+test('!help should return contents of HELP.md', async () => {
+    //GIVEN
+    const messageContent = '!help';
+    const expectedResponse = help;
 
-        //WHEN
-        await bot.handleMessage(message);
+    const message = new Message(1, channel, messageContent);
+
+    //WHEN
+    await bot.handleMessage(message);
 
 
-        //THEN
-        expect(channel.sendMessage).toBeCalledTimes(1);
-        expect(channel.sendMessage).toBeCalledWith(expectedResponse);
-        
-    })
-    
-    test('!addband should add band name to array', () => {
-        //GIVEN
-        const messageContent = '!addband Tool';
-        const expectedItem = 'Tool';
-        const arrayLengthBefore = data.getBandNamesLength();
-        
-        const message = new Message(1, channel, messageContent);
-        
-        //WHEN
-        bot.handleMessage(message);
-        
-        //THEN
-        expect(data.getBandNames()).toHaveLength(arrayLengthBefore + 1);
-        expect(data.getBandNames()).toContain(expectedItem);
-    })
-    
-    test('!band should reply with a bandname from array', () => {
-        //GIVEN
-        const messageContent = '!band';
-        const bandNames = data.getBandNames();
-        
-        const message = new Message(1, channel, messageContent);
-        
-        //WHEN
-        const result = bot.handleMessage(message);
-        
-        //THEN
-        expect(channel.sendMessage).toBeCalledTimes(1);
-        expect(bandNames).toContain(result);
-    })
+    //THEN
+    expect(channel.sendMessage).toBeCalledTimes(1);
+    expect(channel.sendMessage).toBeCalledWith(expectedResponse);
 
-    test('messages outside of bot testing channel should be ignored', () => {
-        //GIVEN
-        channel.getId.mockImplementation(() => 1);
-        const messageContent = 'prog rocks';
+})
 
-        const message = new Message(1, channel, messageContent);
+test('!addband should add band name to array', () => {
+    //GIVEN
+    const messageContent = '!addband Tool';
+    const expectedItem = 'Tool';
+    const arrayLengthBefore = data.getBandNamesLength();
 
-        //WHEN
-        bot.handleMessage(message);
+    const message = new Message(1, channel, messageContent);
 
-        //THEN
-        expect(channel.sendMessage).toBeCalledTimes(0);
-    })
+    //WHEN
+    bot.handleMessage(message);
 
-    test('!search should do a Spotify search for the given query', () => {
-        //GIVEN
-        const messageContent = '!search beatles';
-        const expectedQuery = 'beatles';
+    //THEN
+    expect(data.getBandNames()).toHaveLength(arrayLengthBefore + 1);
+    expect(data.getBandNames()).toContain(expectedItem);
+})
 
-        const message = new Message(1, channel, messageContent);
+test('!band should reply with a bandname from array', () => {
+    //GIVEN
+    const messageContent = '!band';
+    const bandNames = data.getBandNames();
 
-        //WHEN
-        bot.handleMessage(message);
+    const message = new Message(1, channel, messageContent);
 
-        //THEN
-        expect(spotify.search).toBeCalledTimes(1);
-        expect(spotify.search).toBeCalledWith(expectedQuery);
-    })
+    //WHEN
+    const result = bot.handleMessage(message);
+
+    //THEN
+    expect(channel.sendMessage).toBeCalledTimes(1);
+    expect(bandNames).toContain(result);
+})
+
+test('messages outside of bot testing channel should be ignored', () => {
+    //GIVEN
+    channel.getId.mockImplementation(() => 1);
+    const messageContent = 'prog rocks';
+
+    const message = new Message(1, channel, messageContent);
+
+    //WHEN
+    bot.handleMessage(message);
+
+    //THEN
+    expect(channel.sendMessage).toBeCalledTimes(0);
+})
+
+test('!search should do a Spotify search for the given query', () => {
+    //GIVEN
+    const messageContent = '!search beatles';
+    const expectedQuery = 'beatles';
+
+    const message = new Message(1, channel, messageContent);
+
+    //WHEN
+    bot.handleMessage(message);
+
+    //THEN
+    expect(spotify.search).toBeCalledTimes(1);
+    expect(spotify.search).toBeCalledWith(expectedQuery);
 })
