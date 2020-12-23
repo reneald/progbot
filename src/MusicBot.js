@@ -1,10 +1,11 @@
 import * as commands from './commands.js';
 import Message from './Message.js';
 import Channel from './Channel.js';
+import SpotifyWrapper from './SpotifyWrapper.js';
 
 export default class MusicBot {
-    constructor (spotifyClient) {
-        this.spotify = spotifyClient;
+    constructor () {
+        this.spotify = new SpotifyWrapper();
     }
 
     createMessage(message) {
@@ -25,8 +26,8 @@ export default class MusicBot {
                         return commands.addBand(message);
                     case "!band":
                         return commands.replyBandName(message);
-                    case "!search":
-                        return commands.search(message, this.spotify);
+                    case "!searchartist":
+                        return commands.searchArtist(message, this.spotify);
                     default:
                         console.log('Ignoring message ' + message.id + '.');
                         break;

@@ -35,12 +35,12 @@ const noDoubt = function(message) {
     console.log('Is No Doubt prog? Processing message ' + message.id + ' complete.');
 }
 
-const search = function(message, spotify) {
+const searchArtist = function(message, spotify) {
     console.log('Message ' + message.id + ' wants to search Spotify...');
     const query = separatedContent(message);
-    const result = spotify.search(query);
+    const result = spotify.searchArtist(query);
     console.log('Search returned ' + result + '.');
-    console.log('Processing message ' + message.id + 'complete.');
+    console.log('Processing message ' + message.id + ' complete.');
     return result;
 }
 
@@ -49,5 +49,5 @@ function separatedContent(message) {
 }
 
 export {
-    showHelp, replyBandName, addBand, noDoubt, search
+    showHelp, replyBandName, addBand, noDoubt, searchArtist
 }
