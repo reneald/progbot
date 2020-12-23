@@ -3,8 +3,8 @@ import Message from './Message.js';
 import Channel from './Channel.js';
 
 export default class MusicBot {
-    constructor () {
-
+    constructor (spotifyClient) {
+        this.spotify = spotifyClient;
     }
 
     createMessage(message) {
@@ -25,6 +25,8 @@ export default class MusicBot {
                         return commands.addBand(message);
                     case "!band":
                         return commands.replyBandName(message);
+                    case "!search":
+                        return commands.search(message, this.spotify);
                     default:
                         console.log('Ignoring message ' + message.id + '.');
                         break;
