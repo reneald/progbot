@@ -5,7 +5,7 @@
 import MusicBot from '../src/MusicBot';
 import Message from '../src/Message';
 import Channel from '../src/Channel';
-import SpotifyWrapper from '../src/SpotifyWrapper';
+import SpotifyWrapper from '../src/__mocks__/SpotifyWrapper';
 import { readFile } from 'fs/promises';
 import * as data from '../src/data.js';
 
@@ -115,22 +115,5 @@ describe("MusicBot", () => {
         
         //THEN
         expect(channel.sendMessage).toBeCalledTimes(0);
-    })
-    
-    test('!searchartist should do a Spotify search for the given query', () => {
-        //GIVEN
-        const messageContent = '!searchartist Tool';
-        const expectedQuery = 'Tool';
-        
-        const message = new Message(1, channel, messageContent);
-        
-        //WHEN
-        bot.handleMessage(message);
-        
-        //THEN
-        const spotifyWrapperInstances = SpotifyWrapper.mock.instances;
-        const spotifyWrapperInstance = spotifyWrapperInstances[0];
-        expect(spotifyWrapperInstance.searchArtist).toBeCalledTimes(1);
-        expect(spotifyWrapperInstance.searchArtist).toBeCalledWith(expectedQuery);
     })
 })

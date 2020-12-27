@@ -26,8 +26,8 @@ export default class MusicBot {
                         return commands.addBand(message);
                     case "!band":
                         return commands.replyBandName(message);
-                    case "!searchartist":
-                        return commands.searchArtist(message, this.spotify);
+                    case "!search":
+                        return commands.search(message, this.spotify);
                     default:
                         console.log('Ignoring message ' + message.id + '.');
                         break;
