@@ -18,7 +18,7 @@ describe("SpotifyWrapper", () => {
         //WHEN/THEN
         expect.assertions(1);
         return spotifyWrapper.searchArtist(query).then(data => {
-            expect(data).toBe("Tool");
+            expect(data).toBe(expectedQuery);
         })
     })
 })
