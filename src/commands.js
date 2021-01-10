@@ -23,8 +23,7 @@ const replyBandName = function (message) {
 
 const addBand = function (message) {
     console.log('Message ' + message.id + ' wants to add a band to my list...');
-    const separateCommandFromContent = message.content.match(/!\w+ (.+)/);
-    const bandName = separateCommandFromContent[1];
+    const bandName = separatedContent(message);
     data.addBandName(bandName);
     console.log('Band name added. Processing message ' + message.id + ' complete.');
     return data.getBandNames;
@@ -36,6 +35,29 @@ const noDoubt = function(message) {
     console.log('Is No Doubt prog? Processing message ' + message.id + ' complete.');
 }
 
+const search = function(message, spotify) {
+    console.log('Message ' + message.id + ' wants to search Spotify...');
+    const query = separatedContent(message);
+    let result;
+    spotify.searchArtist(query)
+    .then(
+        (data) => {
+            result = data.body.artists.items[0].external_urls.spotify;
+            console.log('Search returned ' + result + '.');
+            message.channel.sendMessage(result);
+        }, 
+        (error) => {
+            console.log("Error searching Spotify:")
+            console.log(error);
+        });
+    console.log('Processing message ' + message.id + ' complete.');
+    return result;
+}
+
+function separatedContent(message) {
+    return message.content.match(/!\w+ (.+)/)[1];
+}
+
 export {
-    showHelp, replyBandName, addBand, noDoubt
+    showHelp, replyBandName, addBand, noDoubt, search
 }

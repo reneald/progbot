@@ -2,7 +2,10 @@ console.log('Beep beep');
 
 import MusicClient from './MusicClient.js';
 import MusicBot from './MusicBot.js';
+import SpotifyWrapper from './SpotifyWrapper.js';
+import SpotifyWebApi from 'spotify-web-api-node';
 
+// instantiate Discord Client
 const client = new MusicClient();
 client.login(process.env.BOT_TOKEN);
 
