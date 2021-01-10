@@ -42,9 +42,9 @@ const search = function(message, spotify) {
     spotify.searchArtist(query)
     .then(
         (data) => {
+            result = data.body;
             console.log('Search returned ' + result + '.');
             message.channel.sendMessage(result);
-            result = data.body;
         }, 
         (error) => {
             console.log("Error searching Spotify:")
