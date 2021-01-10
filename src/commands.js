@@ -42,7 +42,7 @@ const search = function(message, spotify) {
     spotify.searchArtist(query)
     .then(
         (data) => {
-            result = data.body;
+            result = data.body.artists.items[0].external_urls.spotify;
             console.log('Search returned ' + result + '.');
             message.channel.sendMessage(result);
         }, 
