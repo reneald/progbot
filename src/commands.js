@@ -1,7 +1,7 @@
 import { readFile } from 'fs/promises';
 import * as data from './data.js';
-    
-const showHelp = async function(message) {
+
+const showHelp = async function (message) {
     console.log('Message ' + message.id + ' is a cry for help...');
     try {
         const data = await readFile('./src/HELP.md', 'utf-8');
@@ -29,29 +29,43 @@ const addBand = function (message) {
     return data.getBandNames;
 }
 
-const noDoubt = function(message) {
+const noDoubt = function (message) {
     console.log('Message ' + message.id + ' tells the truth...');
     message.channel.sendMessage('no doubt');
     console.log('Is No Doubt prog? Processing message ' + message.id + ' complete.');
 }
 
-const search = function(message, spotify) {
+const search = function (message, spotify) {
     console.log('Message ' + message.id + ' wants to search Spotify...');
     const query = separatedContent(message);
     let result;
     spotify.searchArtist(query)
-    .then(
-        (data) => {
-            result = data.body.artists.items[0].external_urls.spotify;
-            console.log('Search returned ' + result + '.');
-            message.channel.sendMessage(result);
-        }, 
-        (error) => {
-            console.log("Error searching Spotify:")
-            console.log(error);
-        });
+        .then(
+            (data) => {
+                result = sendAndSaveResult(result, data, message);
+            },
+            (error) => {
+                console.log("Error searching Spotify:")
+                console.log(error.body);
+                if (error.body.error.status === 401) {
+                    spotify.getAndSetAccessToken();
+                    sendTryAgain(message);
+
+                }
+            });
     console.log('Processing message ' + message.id + ' complete.');
     return result;
+}
+
+function sendAndSaveResult(result, data, message) {
+    result = data.body.artists.items[0].external_urls.spotify;
+    console.log('Search returned ' + result + '.');
+    message.channel.sendMessage(result);
+    return result;
+}
+
+function sendTryAgain(message) {
+    message.channel.sendMessage("My bloody Spotify token expired again. I've renewed it now, but can you try that again please?")
 }
 
 function separatedContent(message) {
