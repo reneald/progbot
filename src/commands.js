@@ -45,11 +45,20 @@ const search = function (message, spotify) {
                 result = sendAndSaveResult(result, data, message);
             },
             (error) => {
-                console.log("Error searching Spotify:")
+                console.log("Error searching Spotify:");
                 console.log(error.body);
                 if (error.body.error.status === 401) {
                     spotify.getAndSetAccessToken();
-                    sendTryAgain(message);
+                    spotify.searchArtist(query)
+                        .then(
+                            (data) => {
+                                result = sendAndSaveResult(result, data, message);
+                            },
+                            (error) => {
+                                console.log("Error searching Spotify again:");
+                                console.log(error.body);
+                            }
+                        );
 
                 }
             });
@@ -62,10 +71,6 @@ function sendAndSaveResult(result, data, message) {
     console.log('Search returned ' + result + '.');
     message.channel.sendMessage(result);
     return result;
-}
-
-function sendTryAgain(message) {
-    message.channel.sendMessage("My bloody Spotify token expired again. I've renewed it now, but can you try that again please?")
 }
 
 function separatedContent(message) {
