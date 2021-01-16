@@ -5,7 +5,7 @@
 import MusicBot from '../src/MusicBot';
 import Message from '../src/Message';
 import Channel from '../src/Channel';
-import SpotifyWrapper from '../src/__mocks__/SpotifyWrapper';
+import SpotifyWrapper from '../src/SpotifyWrapper';
 import { readFile } from 'fs/promises';
 import * as data from '../src/data.js';
 import Feature from '../src/Feature';
@@ -120,21 +120,21 @@ describe("MusicBot", () => {
         expect(channel.sendMessage).toBeCalledTimes(0);
     })
 
-    test('temporary: when feature BAND_SEARCH_SPOTIFY is enabled, should send Hey There to channel', () => {
+    test('when feature BAND_SEARCH_SPOTIFY is enabled, !band should send spotify link to channel', async () => {
         //GIVEN
-        const mockBandSearchSpotify = jest.fn();
-        mockBandSearchSpotify.mockReturnValue(true);
-        Feature.BAND_SEARCH_SPOTIFY = mockBandSearchSpotify;
+        const mockFeature = jest.fn();
+        mockFeature.mockReturnValue(true);
+        Feature.BAND_SEARCH_SPOTIFY = mockFeature;
         const messageContent = '!band';
-        const expectedResult = 'Hey there';
+        const searchArtistReturnValue = 'Tool';
 
         const message = new Message(1, channel, messageContent);
 
         //WHEN
-        bot.handleMessage(message);
+        await bot.handleMessage(message);
 
         //then
         expect(channel.sendMessage).toBeCalledTimes(1);
-        expect(channel.sendMessage).toBeCalledWith(expectedResult);
+        expect(channel.sendMessage).toBeCalledWith(searchArtistReturnValue);
     })
 })

@@ -13,18 +13,39 @@ const showHelp = async function (message) {
     console.log('Help provided. Processing message ' + message.id + ' complete.');
 }
 
-const replyBandName = function (message) {
+const replyBandName = function (message, spotify) {
     console.log('Message ' + message.id + ' asks for a band name...');
     const index = Math.floor(Math.random() * data.getBandNamesLength());
-    const bandNameToReturn = data.getBandName(index);
+    let result = data.getBandName(index);
     if(Feature.BAND_SEARCH_SPOTIFY) {
-        message.channel.sendMessage('Hey there');
-        console.log('Provided Spotify link for ' + bandNameToReturn + '. Processing message ' + message.id + ' complete.');
+        spotify.searchArtist(result)
+        .then(
+            (data) => {
+                result = sendAndSaveResult(result, data, message);
+            },
+            (error) => {
+                console.log("Error searching Spotify:");
+                console.log(error.body);
+                if (error.body.error.status === 401) {
+                    spotify.getAndSetAccessToken();
+                    spotify.searchArtist(query)
+                        .then(
+                            (data) => {
+                                result = sendAndSaveResult(result, data, message);
+                            },
+                            (error) => {
+                                console.log("Error searching Spotify again:");
+                                console.log(error.body);
+                            }
+                        );
+
+                }
+            })
     } else {
-        message.channel.sendMessage(bandNameToReturn);
-        console.log('Provided band name. Processing message ' + message.id + ' complete.');
+        message.channel.sendMessage(result);
     }
-    return bandNameToReturn;
+    console.log('Provided band name. Processing message ' + message.id + ' complete.');
+    return result;
 }
 
 const addBand = function (message) {
