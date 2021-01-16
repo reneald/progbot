@@ -28,6 +28,7 @@ describe("MusicBot", () => {
         channel = new Channel();
         channel.getId.mockImplementation(() => process.env.BOT_TESTING_CHANNEL_ID);
         help = await readFile('./src/HELP.md', 'utf-8');
+        data.setToOriginalData();
     })
     
     test('prog rocks should respond with no doubt', () => {
@@ -90,6 +91,23 @@ describe("MusicBot", () => {
         expect(data.getBandNames()).toHaveLength(arrayLengthBefore + 1);
         expect(data.getBandNames()).toContain(expectedItem);
     })
+
+    test('!addBand should check for doubles before saving to the Array', () => {
+        //GIVEN
+        const messageContent = '!addband Tool';
+        const expectedItem = 'Tool';
+        const arrayLengthBefore = data.getBandNamesLength();
+        
+        const message = new Message(1, channel, messageContent);
+        
+        //WHEN
+        bot.handleMessage(message);
+        bot.handleMessage(message);
+        
+        //THEN
+        expect(data.getBandNames()).toHaveLength(arrayLengthBefore + 1);
+        expect(data.getBandNames()).toContain(expectedItem);
+    })
     
     test('!band should reply with a bandname from array', () => {
         //GIVEN
@@ -138,7 +156,4 @@ describe("MusicBot", () => {
         expect(channel.sendMessage).toBeCalledWith(searchArtistReturnValue);
     })
 
-    test('!addBand should check for doubles before saving to the Array', () => {
-        
-    })
 })
