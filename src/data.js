@@ -1,3 +1,13 @@
+const originalBandNames = [
+    'Toehider',
+    'Rush',
+    'Evergrey',
+    'Symphony X',
+    'Ayreon',
+    'Pain of Salvation',
+    'Dream Theater'
+]
+
 const bandNames = [
     'Toehider',
     'Rush',
@@ -24,4 +34,9 @@ const addBandName = function(bandName) {
     bandNames.push(bandName);
 }
 
-export {getBandNames, getBandName, getBandNamesLength, addBandName};
+const setToOriginalData = function() {
+    bandNames.length = 0;
+    bandNames.push(...originalBandNames);
+}
+
+export {getBandNames, getBandName, getBandNamesLength, addBandName, setToOriginalData};

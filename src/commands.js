@@ -51,8 +51,12 @@ const replyBandName = function (message, spotify) {
 const addBand = function (message) {
     console.log('Message ' + message.id + ' wants to add a band to my list...');
     const bandName = separatedContent(message);
-    data.addBandName(bandName);
-    console.log('Band name added. Processing message ' + message.id + ' complete.');
+    if(!data.getBandNames().includes(bandName)) {
+        data.addBandName(bandName);
+        console.log('Band name added. Processing message ' + message.id + ' complete.');
+    } else {
+        console.log('Band name was already in the list. Processing message ' + message.id + ' complete.');
+    }
     return data.getBandNames;
 }
 
