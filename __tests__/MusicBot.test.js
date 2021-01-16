@@ -137,4 +137,8 @@ describe("MusicBot", () => {
         expect(channel.sendMessage).toBeCalledTimes(1);
         expect(channel.sendMessage).toBeCalledWith(searchArtistReturnValue);
     })
+
+    test('!addBand should check for doubles before saving to the Array', () => {
+        
+    })
 })
