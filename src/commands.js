@@ -1,5 +1,6 @@
 import { readFile } from 'fs/promises';
 import * as data from './data.js';
+import Feature from './Feature.js';
 
 const showHelp = async function (message) {
     console.log('Message ' + message.id + ' is a cry for help...');
@@ -16,6 +17,9 @@ const replyBandName = function (message) {
     console.log('Message ' + message.id + ' asks for a band name...');
     const index = Math.floor(Math.random() * data.getBandNamesLength());
     const bandNameToReturn = data.getBandName(index);
+    if(Feature.BAND_SEARCH_SPOTIFY) {
+        console.log('Hey there');
+    }
     message.channel.sendMessage(bandNameToReturn);
     console.log('Provided band name. Processing message ' + message.id + ' complete.');
     return bandNameToReturn;
