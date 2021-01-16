@@ -5,12 +5,14 @@
 import MusicBot from '../src/MusicBot';
 import Message from '../src/Message';
 import Channel from '../src/Channel';
-import SpotifyWrapper from '../src/__mocks__/SpotifyWrapper';
+import SpotifyWrapper from '../src/SpotifyWrapper';
 import { readFile } from 'fs/promises';
 import * as data from '../src/data.js';
+import Feature from '../src/Feature';
 
 jest.mock('../src/Channel');
 jest.mock('../src/SpotifyWrapper');
+jest.mock('../src/Feature');
 
 describe("MusicBot", () => {
 
@@ -19,6 +21,7 @@ describe("MusicBot", () => {
     let help;
     
     beforeEach(async () => {
+        Feature.mockClear();
         Channel.mockClear();
         SpotifyWrapper.mockClear();
         bot = new MusicBot();
@@ -115,5 +118,23 @@ describe("MusicBot", () => {
         
         //THEN
         expect(channel.sendMessage).toBeCalledTimes(0);
+    })
+
+    test('when feature BAND_SEARCH_SPOTIFY is enabled, !band should send spotify link to channel', async () => {
+        //GIVEN
+        const mockFeature = jest.fn();
+        mockFeature.mockReturnValue(true);
+        Feature.BAND_SEARCH_SPOTIFY = mockFeature;
+        const messageContent = '!band';
+        const searchArtistReturnValue = 'Tool';
+
+        const message = new Message(1, channel, messageContent);
+
+        //WHEN
+        await bot.handleMessage(message);
+
+        //then
+        expect(channel.sendMessage).toBeCalledTimes(1);
+        expect(channel.sendMessage).toBeCalledWith(searchArtistReturnValue);
     })
 })

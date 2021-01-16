@@ -1,4 +1,16 @@
-const artistReply = "Tool";
+const artistReply = {
+    "body": {
+        "artists": {
+            "items": [
+                {
+                    "external_urls": {
+                        "spotify": 'Tool'
+                    }
+                }
+            ]
+        }
+    }
+};
 export const mockSearchArtist = jest.fn(() => {
     return new Promise((resolve, reject) => {
         try{
