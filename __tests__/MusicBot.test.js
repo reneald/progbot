@@ -8,9 +8,11 @@ import Channel from '../src/Channel';
 import SpotifyWrapper from '../src/__mocks__/SpotifyWrapper';
 import { readFile } from 'fs/promises';
 import * as data from '../src/data.js';
+import Feature from '../src/Feature';
 
 jest.mock('../src/Channel');
 jest.mock('../src/SpotifyWrapper');
+jest.mock('../src/Feature');
 
 describe("MusicBot", () => {
 
@@ -19,6 +21,7 @@ describe("MusicBot", () => {
     let help;
     
     beforeEach(async () => {
+        Feature.mockClear();
         Channel.mockClear();
         SpotifyWrapper.mockClear();
         bot = new MusicBot();
@@ -115,5 +118,23 @@ describe("MusicBot", () => {
         
         //THEN
         expect(channel.sendMessage).toBeCalledTimes(0);
+    })
+
+    test('temporary: when feature BAND_SEARCH_SPOTIFY is enabled, should send Hey There to channel', () => {
+        //GIVEN
+        const mockBandSearchSpotify = jest.fn();
+        mockBandSearchSpotify.mockReturnValue(true);
+        Feature.BAND_SEARCH_SPOTIFY = mockBandSearchSpotify;
+        const messageContent = '!band';
+        const expectedResult = 'Hey there';
+
+        const message = new Message(1, channel, messageContent);
+
+        //WHEN
+        bot.handleMessage(message);
+
+        //then
+        expect(channel.sendMessage).toBeCalledTimes(1);
+        expect(channel.sendMessage).toBeCalledWith(expectedResult);
     })
 })

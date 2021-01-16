@@ -18,10 +18,12 @@ const replyBandName = function (message) {
     const index = Math.floor(Math.random() * data.getBandNamesLength());
     const bandNameToReturn = data.getBandName(index);
     if(Feature.BAND_SEARCH_SPOTIFY) {
-        console.log('Hey there');
+        message.channel.sendMessage('Hey there');
+        console.log('Provided Spotify link for ' + bandNameToReturn + '. Processing message ' + message.id + ' complete.');
+    } else {
+        message.channel.sendMessage(bandNameToReturn);
+        console.log('Provided band name. Processing message ' + message.id + ' complete.');
     }
-    message.channel.sendMessage(bandNameToReturn);
-    console.log('Provided band name. Processing message ' + message.id + ' complete.');
     return bandNameToReturn;
 }
 
