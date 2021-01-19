@@ -13,35 +13,15 @@ const showHelp = async function (message) {
     console.log('Help provided. Processing message ' + message.id + ' complete.');
 }
 
-const replyBandName = function (message, spotify) {
+const replyBandName = async function (message, spotify) {
     console.log('Message ' + message.id + ' asks for a band name...');
     const index = Math.floor(Math.random() * data.getBandNamesLength());
-    let result = data.getBandName(index);
+    const query = data.getBandName(index);
+    let result;
     if(Feature.BAND_SEARCH_SPOTIFY) {
-        spotify.searchArtist(result)
-        .then(
-            (data) => {
-                result = sendAndSaveResult(result, data, message);
-            },
-            (error) => {
-                console.log("Error searching Spotify:");
-                console.log(error.body);
-                if (error.body.error.status === 401) {
-                    spotify.getAndSetAccessToken();
-                    spotify.searchArtist(query)
-                        .then(
-                            (data) => {
-                                result = sendAndSaveResult(result, data, message);
-                            },
-                            (error) => {
-                                console.log("Error searching Spotify again:");
-                                console.log(error.body);
-                            }
-                        );
-
-                }
-            })
+        result = await searchAndSendBand(result, spotify, query, message);
     } else {
+        let result = query;
         message.channel.sendMessage(result);
     }
     console.log('Provided band name. Processing message ' + message.id + ' complete.');
@@ -62,35 +42,49 @@ const noDoubt = function (message) {
     console.log('Is No Doubt prog? Processing message ' + message.id + ' complete.');
 }
 
-const search = function (message, spotify) {
+const search = async function (message, spotify) {
     console.log('Message ' + message.id + ' wants to search Spotify...');
     const query = separatedContent(message);
     let result;
-    spotify.searchArtist(query)
-        .then(
-            (data) => {
-                result = sendAndSaveResult(result, data, message);
-            },
-            (error) => {
-                console.log("Error searching Spotify:");
-                console.log(error.body);
-                if (error.body.error.status === 401) {
-                    spotify.getAndSetAccessToken();
-                    spotify.searchArtist(query)
-                        .then(
-                            (data) => {
-                                result = sendAndSaveResult(result, data, message);
-                            },
-                            (error) => {
-                                console.log("Error searching Spotify again:");
-                                console.log(error.body);
-                            }
-                        );
 
-                }
-            });
+    result = await searchAndSendBand(result, spotify, query, message);
+
     console.log('Processing message ' + message.id + ' complete.');
     return result;
+}
+
+async function searchAndSendBand(result, spotify, query, message) {
+    try {
+        result = await doSearch(spotify, query, result, message);
+    } catch (error) {
+        result = await doSearchAgain(error, spotify, result, query, message);
+    }
+    return result;
+}
+
+async function doSearchAgain(error, spotify, result, query, message) {
+    logError(error);
+    if (error.body.error.status === 401) {
+        await spotify.getAndSetAccessToken();
+        try {
+            result = await doSearch(spotify, query, result, message);
+        } catch (secondError) {
+            logError(secondError);
+
+        }
+    }
+    return result;
+}
+
+async function doSearch(spotify, query, result, message) {
+    const firstData = await spotify.searchArtist(query);
+    result = sendAndSaveResult(result, firstData, message);
+    return result;
+}
+
+function logError(error) {
+    console.log("Error searching Spotify:");
+    console.log(error.body);
 }
 
 function sendAndSaveResult(result, data, message) {

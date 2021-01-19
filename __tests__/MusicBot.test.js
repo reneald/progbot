@@ -91,15 +91,18 @@ describe("MusicBot", () => {
         expect(data.getBandNames()).toContain(expectedItem);
     })
     
-    test('!band should reply with a bandname from array', () => {
+    test('when BAND_SEARCH_SPOTIFY is disabled, !band should reply with a bandname from array', async () => {
         //GIVEN
+        const mockFeature = jest.fn();
+        mockFeature.mockReturnValue(false);
+        Feature.BAND_SEARCH_SPOTIFY = mockFeature;
         const messageContent = '!band';
         const bandNames = data.getBandNames();
         
         const message = new Message(1, channel, messageContent);
         
         //WHEN
-        const result = bot.handleMessage(message);
+        const result = await bot.handleMessage(message);
         
         //THEN
         expect(channel.sendMessage).toBeCalledTimes(1);
