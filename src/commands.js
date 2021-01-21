@@ -33,8 +33,10 @@ const addBand = function (message) {
     const bandName = separatedContent(message);
     if(!data.getBandNames().includes(bandName)) {
         data.addBandName(bandName);
+        message.channel.sendMessage(bandName + ' added.');
         console.log('Band name added. Processing message ' + message.id + ' complete.');
     } else {
+        message.channel.sendMessage(bandName + ' was already in the list.');
         console.log('Band name was already in the list. Processing message ' + message.id + ' complete.');
     }
     return data.getBandNames;
