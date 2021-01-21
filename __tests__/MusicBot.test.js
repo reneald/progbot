@@ -94,38 +94,49 @@ describe("MusicBot", () => {
 
     test('!addBand should check for doubles before saving to the Array', () => {
         //GIVEN
+        data.addBandName('Tool');
         const messageContent = '!addband Tool';
-        const expectedItem = 'Tool';
         const arrayLengthBefore = data.getBandNamesLength();
         
         const message = new Message(1, channel, messageContent);
         
         //WHEN
         bot.handleMessage(message);
-        bot.handleMessage(message);
         
         //THEN
-        expect(data.getBandNames()).toHaveLength(arrayLengthBefore + 1);
-        expect(data.getBandNames()).toContain(expectedItem);
+        expect(data.getBandNames()).toHaveLength(arrayLengthBefore);
     })
-    
-    // test('when BAND_SEARCH_SPOTIFY is disabled, !band should reply with a bandname from array', async () => {
-    //     //GIVEN
-    //     const mockFeature = jest.fn();
-    //     mockFeature.mockReturnValue(false);
-    //     Feature.BAND_SEARCH_SPOTIFY = mockFeature;
-    //     const messageContent = '!band';
-    //     const bandNames = data.getBandNames();
-        
-    //     const message = new Message(1, channel, messageContent);
-        
-    //     //WHEN
-    //     const result = await bot.handleMessage(message);
-        
-    //     //THEN
-    //     expect(channel.sendMessage).toBeCalledTimes(1);
-    //     expect(bandNames).toContain(result);
-    // })
+
+    test('!addBand should reply with confirmation when band was added', () => {
+        //GIVEN
+        const messageContent = '!addband Tool';
+        const expectedResponse = 'Tool added.';
+
+        const message = new Message(1, channel, messageContent);
+
+        //WHEN
+        bot.handleMessage(message);
+
+        //THEN
+        expect(channel.sendMessage).toBeCalledTimes(1);
+        expect(channel.sendMessage).toBeCalledWith(expectedResponse);
+    })
+
+    test('!addBand should reply with *bandname already in the list* when applicable', () => {
+        //GIVEN
+        data.addBandName('Tool');
+        const messageContent = '!addband Tool';
+        const expectedResponse = 'Tool was already in the list.';
+
+        const message = new Message(1, channel, messageContent);
+
+        //WHEN
+        bot.handleMessage(message);
+
+        //THEN
+        expect(channel.sendMessage).toBeCalledTimes(1);
+        expect(channel.sendMessage).toBeCalledWith(expectedResponse);
+    })
     
     test('messages outside of bot testing channel should be ignored', () => {
         //GIVEN
